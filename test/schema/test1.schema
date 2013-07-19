@@ -1,0 +1,27 @@
+[
+  {
+    "title" : "subtract",
+    "type" : "object",
+    "properties" : {
+      "subtrahend" : {
+        "type" : "number"
+      },
+      "minuend" : {
+        "type" : "number"
+      }
+    },
+    "required" : ["subtrahend", "minuend"]
+  },
+  {
+    "title" : "add",
+    "type" : "object",
+    "properties" : {
+      "addends" : {
+        "type" : "array",
+        "items" : {
+          "type" : "number"
+        }
+      }
+    }
+  }
+]

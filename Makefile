@@ -11,8 +11,6 @@ deps:
 	$(REBAR) get-deps
 
 compile:
-	$(REBAR) compile
-
 ifeq ($(NODEPS),true)
 	$(REBAR) compile skip_deps=true
 else
@@ -27,7 +25,6 @@ test: all
 	$(REBAR) eunit skip_deps=true
 
 eunit:
-
 ifeq ($(SUITES),)
 	$(REBAR) eunit skip_deps=true
 else

@@ -1,0 +1,9 @@
+{application, hello_jesse,
+    [
+      {description, "Params validators for HELLO based on JSON Schema"},
+      {vsn, git},
+      {modules, []},
+      {applications, [kernel, stdlib]},
+      {registered, []}
+    ]
+}.
