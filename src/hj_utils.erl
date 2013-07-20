@@ -14,62 +14,73 @@ validate(Params, Schema, WantType) ->
 
 %%%%%============================================================================
 
+-define(F(X), to_list(X)).
+to_list(X) when is_integer(X)   -> integer_to_list(X);
+to_list(X) when is_atom(X)      -> atom_to_list(X);
+to_list(X) when is_float(X)     -> float_to_list(X);
+to_list(X) when is_binary(X)    -> binary_to_list(X);
+to_list(X) when is_list(X)      -> X;
+to_list(X)                      -> io_lib:format("~p", [X]).
+
 %% Wrap Jesse error and make them compatible with Hello.
-wrap_error({data_invalid, Value, missing_required_property, Property}) ->
-    ["'", Value, "' is missing required property '", Property, "'"];
+wrap_error(Err) ->
+    list_to_binary(wrap_error_1(Err)).
 
-wrap_error({data_invalid,
+wrap_error_1({data_invalid, Value, missing_required_property, Property}) ->
+    [?F(Value), " is missing required property ", ?F(Property)];
+
+wrap_error_1({data_invalid,
            {Value, _Extras}, no_extra_properties_allowed, _Schema}) ->
-    ["No extra properties allowed in '", Value, "'"];
+    ["No extra properties allowed in ", ?F(Value)];
 
-wrap_error({data_invalid, Value, no_extra_items_allowed, _Schema}) ->
-    ["No extra items allowed in '", Value, "'"];
+wrap_error_1({data_invalid, Value, no_extra_items_allowed, _Schema}) ->
+    ["No extra items allowed in ", ?F(Value)];
 
-wrap_error({data_invalid, Value, not_enought_items, _Schema}) ->
-    ["No enough of items in '", Value, "'"];
+wrap_error_1({data_invalid, Value, not_enought_items, _Schema}) ->
+    ["No enough of items in ", ?F(Value)];
 
-wrap_error({data_invalid, Value, missing_dependency, Dependency}) ->
-    ["Missing dependency '", Dependency, "' in '", Value, "'"];
+wrap_error_1({data_invalid, Value, missing_dependency, Dependency}) ->
+    ["Missing dependency ", ?F(Dependency), " in ", ?F(Value)];
 
-wrap_error({data_invalid, Value, not_in_range,
+wrap_error_1({data_invalid, Value, not_in_range,
             {{_, A}, {_, B}}}) ->
-    ["'", Value, "' not in range ", A, ";", B];
+    [?F(Value), " not in range ", ?F(A), "-", ?F(B)];
 
-wrap_error({data_invalid, Value, not_correct_size, {min_items, MinItems}}) ->
-    ["'", Value, "' is not of correct size (min ", MinItems, ")"];
+wrap_error_1({data_invalid, Value, not_correct_size, {min_items, MinItems}}) ->
+    [?F(Value), " is not of correct size (min ", ?F(MinItems), ")"];
 
-wrap_error({data_invalid, Value, not_correct_size, {max_items, MaxItems}}) ->
-    ["'", Value, "' is not of correct size (max ", MaxItems, ")"];
+wrap_error_1({data_invalid, Value, not_correct_size, {max_items, MaxItems}}) ->
+    [?F(Value), " is not of correct size (max ", ?F(MaxItems), ")"];
 
-wrap_error({data_invalid, Value, {Item, not_unique}, _UniqueItems}) ->
-    ["'", Item, "' is not unique in '", Value, "'"];
+wrap_error_1({data_invalid, Value, {Item, not_unique}, _UniqueItems}) ->
+    [?F(Item), " is not unique in ", ?F(Value)];
 
-wrap_error({data_invalid, Value, no_match, Paterns}) ->
-    ["'", Value, "' does not match ", Paterns];
+wrap_error_1({data_invalid, Value, no_match, Patern}) ->
+    [?F(Value), " does not match ", ?F(Patern)];
 
-wrap_error({data_invalid, Value, not_correct_length, {min_length, Len}}) ->
-    ["'", Value, "' is not of correct len (min ", Len, " )"];
+wrap_error_1({data_invalid, Value, not_correct_length, {min_length, Len}}) ->
+    [?F(Value), " is not of correct len (min ", ?F(Len), " )"];
 
-wrap_error({data_invalid, Value, not_correct_length, {max_length, Len}}) ->
-    ["'", Value, "' is not of correct len (max ", Len, " )"];
+wrap_error_1({data_invalid, Value, not_correct_length, {max_length, Len}}) ->
+    [?F(Value), " is not of correct len (max ", ?F(Len), " )"];
 
-wrap_error({data_invalid, Value, not_in_enum, Enum}) ->
-    ["'", Value, "' is not in enum ", Enum];
+wrap_error_1({data_invalid, Value, not_in_enum, Enum}) ->
+    [?F(Value), " is not in enum ", ?F(Enum)];
 
-wrap_error({data_invalid, Value, not_divisible_by, DivBy}) ->
-    [Value, " is not divisible by ", DivBy];
+wrap_error_1({data_invalid, Value, not_divisible_by, DivBy}) ->
+    [?F(Value), " is not divisible by ", ?F(DivBy)];
 
-wrap_error({data_invalid, Value, disallowed, _Schema}) ->
-    ["'", Value, "' is disallowed"];
+wrap_error_1({data_invalid, Value, disallowed, _Schema}) ->
+    [?F(Value), " is disallowed"];
 
-wrap_error({data_invalid, Value, Type, _Schema}) ->
-    ["'", Value, "' is ", Type];
+wrap_error_1({data_invalid, Value, Type, _Schema}) ->
+    [?F(Value), " is ", ?F(Type)];
 
-wrap_error({schema_invalid, _Items_, _Err}) ->
-    ["Invalid schema"];
+wrap_error_1({schema_invalid, _Items_, _Err}) ->
+    "Invalid schema";
 
-wrap_error(Error) ->
-    ["Unknown error: ", Error].
+wrap_error_1(Error) ->
+    ["Unknown error: ", ?F(Error)].
 
 %% Convert params to WantType. The params in WantType will be passed to
 %% Hello `handle_request' callbacks.
