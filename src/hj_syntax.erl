@@ -21,7 +21,8 @@
 generate_forms(JsonSchemas, ModName) ->
     try
         Schemas = decode_schemas(JsonSchemas),
-        Forms = [module(ModName) | functions(Schemas)],
+        Forms   = [module(ModName) | functions(Schemas)],
+
         {ok, erl_syntax:revert_forms(Forms)}
     catch
         throw:{error, Reason} -> {error, Reason}
@@ -38,8 +39,8 @@ functions(Schemas) ->
     [function(S) || S <- Schemas].
 
 function(Schema) ->
-    Name =      get_function_name(Schema),
-    SchemaVal = erl_syntax:abstract(Schema),
+    Name        = get_function_name(Schema),
+    SchemaVal   = erl_syntax:abstract(Schema),
 
     erl_syntax:function(
         erl_syntax:atom(Name),

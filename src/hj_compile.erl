@@ -43,9 +43,10 @@ find_schema_files(Dir) ->
     [filename:join(Dir, F) || F <- filelib:wildcard("*" ++ ?EXTENSION, Dir)].
 
 get_output_file(File, Options) ->
-    OutDir = proplists:get_value(outdir, Options, "."),
-    ModName = get_module_name(File),
-    OutputFile = filename:join(OutDir, atom_to_list(ModName) ++ ".beam"),
+    OutDir      = proplists:get_value(outdir, Options, ?DEFAULT_OUT_DIR),
+    ok          = ensure_dir(OutDir),
+    ModName     = get_module_name(File),
+    OutputFile  = filename:join(OutDir, atom_to_list(ModName) ++ ".beam"),
     {OutputFile, ModName}.
 
 get_module_name(File) ->
@@ -106,3 +107,6 @@ mtime(File) ->
         {ok, Info} -> Info#file_info.mtime;
         {error, _} -> -1
     end.
+
+ensure_dir(Dir) ->
+    filelib:ensure_dir(filename:join([Dir, "dummy"])).
