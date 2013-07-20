@@ -3,11 +3,7 @@
 -export([compile/2, compile_dir/2]).
 
 -include_lib("kernel/include/file.hrl").
-
--define(EXTENSION,          ".schema").
--define(SCHEMA_MOD_PREFIX,  "hj_").
--define(SCHEMA_MOD_POSTFIX, "_schema").
--define(MOD_OPTIONS,        [export_all, return_errors, return_warnings]).
+-include("hello_jesse.hrl").
 
 -define(log, io:format).
 
@@ -15,6 +11,10 @@
 -type opt()  :: {outdir, file:filename()}.
 
 -export_type([opts/0]).
+
+-ifdef(TEST).
+-compile(export_all).
+-endif.
 
 %%%============================================================================
 %%% API

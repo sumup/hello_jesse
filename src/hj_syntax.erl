@@ -95,7 +95,7 @@ decode_schemas(Json) ->
         jiffy:decode(Json)
     catch
         throw:{error, _Reason} ->
-            throw({error, invalid_json_schema_format})
+            throw({error, invalid_json_schema_file})
     end.
 
 get_value(Key, {Proplist}) ->
