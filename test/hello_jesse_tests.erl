@@ -14,6 +14,7 @@
 '_test_'() ->
     [
         {"test1.schema: params ok", fun test_params_ok/0},
+        {"test1.schema: invalid param", fun test_params_nok/0},
         {"test2.schema: misformatted schema json",
          fun test_misformatted_json/0},
         {"test3.schema: title missing",
@@ -24,7 +25,7 @@
 
 test_params_ok() ->
     Schema = "test1.schema",
-    ?assertEqual(ok, ?COMPILE(Schema)),
+    ok = ?COMPILE(Schema),
 
     Json1 = {[{<<"subtrahend">>, 9}, {<<"minuend">>, 0}]},
     ?assertEqual({ok, [9, 0]},
@@ -33,6 +34,14 @@ test_params_ok() ->
     Json2 = {[{<<"addends">>, [1, 2, 3]}]},
     ?assertEqual({ok, [{<<"addends">>, [1, 2, 3]}]},
                  ?FUN(Schema, "add")(proplist, Json2)).
+
+test_params_nok() ->
+    Schema = "test1.schema",
+    ok = ?COMPILE(Schema),
+
+    Json = {[{<<"addends">>, [1, <<"abc">>, 3]}]},
+    ?assertMatch({error, _}, ?FUN(Schema, "add")(object, Json)).
+
 
 test_misformatted_json() ->
     ?assertEqual({error, invalid_json_schema_file},
