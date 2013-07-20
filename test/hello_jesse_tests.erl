@@ -6,7 +6,10 @@
 -include("hello_jesse.hrl").
 
 -define(COMPILE(Schema),
-        hello_jesse:compile(filename:join(["../test/schema", Schema]), [])).
+        hello_jesse:compile(
+            filename:join(["../test/schema", Schema]),
+            [{outdir, "."}]
+        )).
 -define(FUN(Schema, Method), (validation_fun(Schema, Method))).
 
 %%%============================================================================

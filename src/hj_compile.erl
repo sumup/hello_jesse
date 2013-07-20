@@ -63,8 +63,8 @@ maybe_compile(File, Options) ->
     {OutputFile, ModName} = get_output_file(File, Options),
 
     case needs_compile(File, OutputFile) of
-        true ->     compile(File, OutputFile, ModName);
-        false ->    ?log("Up to date ~s~n", [OutputFile])
+        true    -> compile(File, OutputFile, ModName);
+        false   -> ?log("Up to date ~s~n", [OutputFile])
     end.
 
 compile(File, OutputFile, ModName) ->

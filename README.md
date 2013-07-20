@@ -27,13 +27,14 @@ contain __"title"__ property which corresponds to JSON-RPC method name.
     "type" : "object",
     "properties" : {
       "subtrahend" : {
-        "type" : "number"
+        "type" : "number",
+        "required" : true
       },
       "minuend" : {
-        "type" : "number"
+        "type" : "number",
+        "required" : true
       }
-    },
-    "required" : ["subtrahend", "minuend"]
+    }
   },
   {
     "title" : "add",

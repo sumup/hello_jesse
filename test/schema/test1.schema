@@ -4,7 +4,8 @@
     "type" : "object",
     "properties" : {
       "subtrahend" : {
-        "type" : "number"
+        "type" : "number",
+        "required" : true
       },
       "minuend" : {
         "type" : "number"
