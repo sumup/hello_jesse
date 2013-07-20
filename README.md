@@ -1,11 +1,13 @@
 # hello\_jesse
 
+
 __hello_jesse__ is [JSON Schema][1] (Draft 03) to [Hello][2] JSON-RPC
 parameter validation functions compiler. It uses [jesse][3] for validations
 against the schema.
 The project also includes [rebar][4] plugin for compiling schema files.
 
-  [Travis-CI](http://travis-ci.org/brb/hello_jesse) :: ![Travis-CI](https://secure.travis-ci.org/brb/hello_jesse.png)
+[![Build Status](https://travis-ci.org/brb/hello_jesse.png)](https://travis-ci.org/brb/hello_jesse)
+
 
 ## Dependencies
 
