@@ -1,0 +1,12 @@
+#!/usr/bin/env escript
+
+main([]) ->
+    code:add_patha("ebin"),
+    Options = [{outdir, "ebin"}],
+    case hello_jesse:compile_dir("src/schema", Options) of
+        ok ->
+            ok;
+        {error, Error} ->
+            io:format("  Error: ~p~n", [Error]),
+            init:stop(1)
+    end.
