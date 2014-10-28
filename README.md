@@ -6,7 +6,7 @@ parameter validation functions compiler. It uses [jesse][3] for validations
 against the schema.
 The project also includes [rebar][4] plugin for compiling schema files.
 
-[![Build Status](https://travis-ci.org/brb/hello_jesse.png)](https://travis-ci.org/brb/hello_jesse)
+[![Build Status](https://travis-ci.org/sumup/hello_jesse.png)](https://travis-ci.org/sumup/hello_jesse)
 
 
 ## Dependencies
